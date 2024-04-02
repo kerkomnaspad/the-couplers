@@ -1,0 +1,244 @@
+* {
+  margin: 0px;
+}
+
+.body {
+  /* background-color: #ffffcf; */
+  background-image: url(assets/bg3.jpg);
+  background-size: contain;
+  background-position: fixed; 
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* position: fixed; */
+}
+
+.borgar {
+  background-color: white;
+  margin: 1px;
+  height: 1px;
+  width: 10px;
+  
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #355e3b;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 160%;
+  text-shadow: -2px 2px 4px #013220;
+  /* border-bottom: 5px  solid; */
+  color: #cbe08a;
+  z-index: 2;
+
+  height: 35px;
+  /* position: fixed; */
+}
+
+.navbar-btndwn {
+  height: 8px;
+  background-color: #013220;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+}
+
+.navbar-btndwn:hover {
+  height: 6px;
+  background-color: #013220;
+  border-top: 1px #cbe08a solid;
+  border-bottom: 1px #cbe08a solid;
+  z-index: 2;
+}
+
+.dropDownBar {
+  opacity: 0;
+  background-color: #355e3b;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 40px;
+  /* border-bottom: 5px  solid; */
+  color: #cbe08a;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  animation: fadeOut 200ms ease-out 1ms alternate;
+  z-index: 1;
+  padding-top: 5px;
+  display: none;
+  position: absolute;
+  width: 100%;
+  
+  /* transition: opacity 1000ms ease-in-out; */
+}
+
+.dropDownBar.show {
+  animation: fadeIn 200ms ease-in 1ms alternate;
+  border-bottom: 3px #013220 solid;
+}
+
+.dDB-container {
+  /* opacity: 0; */
+  height: 90%;
+  width: 90%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  /* background-color: wheat; */
+  flex-grow: 1;
+  /* flex-wrap: wrap; */
+  z-index: 2;
+}
+
+.dDB-btn {
+  
+  display: block;
+  font-size: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  max-height: 90%;
+  word-break: break-all;
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: transparent;
+  border: none;
+  color: #cbe08a;
+  font-family: "Times New Roman", Times, serif;
+  text-shadow: -2px 2px 4px #013220;
+  z-index: 5;
+
+  
+}
+
+.dDB-btn:hover {
+  display: block;
+  font-size: 55%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 90%;
+  word-break: break-all;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #013220;
+  background-color: #bcb88a;
+  z-index: 5;
+}
+
+.body-container {
+  margin-top: 2%;
+  margin-left: 8%;
+  margin-right: 8%;
+  margin-bottom: 5%;
+  /* background-color: aliceblue; */
+  /* background-color: transparent; */
+  height: 100%;
+  z-index: 2;
+  padding-top: 1%;
+  padding-left: 4%;
+  padding-right: 4%;
+  padding-bottom: 1%;
+  z-index: 0;
+  
+  
+}
+.title {
+  color: #013220;
+  text-decoration: underline;
+  padding-bottom: 1%;
+  position: sticky;
+  z-index: 0;
+}
+
+.content {
+  color: #013220;
+}
+
+.code-container {
+  background-color: black;
+  height: auto;
+  font-size: 90%;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 550;
+  color:white;
+  /* color: #0074D9; */
+  padding:3%;
+}
+
+.comment{
+  color: #467d4e
+}
+
+.typ{
+  color: #0074D9;
+}
+
+.pcl{
+  color: #b8027b;
+}
+
+.w{
+  color: white;
+}
+
+
+@media screen and (max-width: 850px) {
+  .dDB-btn {
+    font-size: 42%;
+  }
+}
+
+
+@media screen and (max-width: 700px) {
+  .dropDownBar {
+    height: 80px;
+
+    flex-wrap: wrap;
+    flex-grow: 1;
+  }
+
+  .dDB-container {
+    flex-grow: 1;
+    flex-wrap: wrap;
+  }
+
+  .dDB-btn {
+    font-size: 42%;
+  }
+
+  .dDB-btn:hover {
+    font-size: 50%;
+  }
+}
+
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0px); /* Move up */
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px); /* Move to original position */
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); /* Move up */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Move to original position */
+  }
+}

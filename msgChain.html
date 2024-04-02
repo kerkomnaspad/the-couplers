@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Chain</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="body">
+    <div class="navbar">
+        <center>
+            Bad Code Smell : The Couplers
+        </center>
+    </div>
+    <div class="navbar-btndwn" onclick="toggleDropDown()">
+        <div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+        </div>
+
+    </div>
+    <div class="dropDownBar" id="dropDownBar">
+        <div class="dDB-container">
+            <button class="dDB-btn" onclick="toFenvy()">Feature Envy</button>
+            <button class="dDB-btn" onclick="toINA()">Inappropriate Intimacy</button>
+            <button class="dDB-btn" onclick="toMc()">Message Chain</button>
+            <button class="dDB-btn" onclick="toMdm()">Middle Man</button>
+            <button class="dDB-btn" onclick="toILC()">Incomplete Library Classes</button>
+        </div>
+    </div>
+    <div class="body-container">
+        <h1 class="title">Message Chain</h1>
+        
+        
+        <p class="content">
+            Code yang saling memanggil <b>method pada class/object lain</b>, yang membentuk sebuah rantai.
+        </p>
+        <br />
+        <center>
+            <img src="assets/message-chains-01-3x.png" alt="image" style="max-width: 650px; max-height: 400px;">
+        </center>
+        <p class="content">Contoh code:</p>
+        <div class="code-container">
+            <p><span class="pcl">public class</span> Customer {<br />
+                &emsp;&emsp;<span class="pcl">private</span> Address address;<br />
+                <br />
+                &emsp;&emsp;<span class="pcl">public</span> Customer(Address address) {<br />
+                &emsp;&emsp;&emsp;<span class="pcl">this.</span>address = address;<br />
+                &emsp;&emsp;}<br />
+                <br />
+                &emsp;&emsp;<span class="pcl">public</span> Address getAddress() {<br />
+                &emsp;&emsp;&emsp;<span class="pcl">return</span> address;<br />
+                &emsp;&emsp;}<br />
+            }</p>
+            <br />
+            <p><span class="pcl">public class</span> Address {<br />
+                &emsp;&emsp;<span class="pcl">private</span> City city;<br />
+                <br />
+                &emsp;&emsp;<span class="pcl">public</span> Address(City city) {<br />
+                &emsp;&emsp;&emsp;<span class="pcl">this.</span>city = city;<br />
+                &emsp;&emsp;}<br />
+                <br />
+                &emsp;&emsp;<span class="pcl">public</span> City getCity() {<br />
+                &emsp;&emsp;&emsp;<span class="pcl">return</span> city;<br />
+                &emsp;&emsp;}<br />
+            }</p>
+            <br />
+            <p><span class="pcl">public class</span> City {<br />
+                &emsp;&emsp;<span class="pcl">private</span> <span class="typ">String</span> name;<br />
+                <br />
+                &emsp;&emsp;<span class="pcl">public</span> City(<span class="typ">String</span> name) {<br />
+                &emsp;&emsp;&emsp;<span class="pcl">this.</span>name = name;<br />
+                &emsp;&emsp;}<br />
+                <br />
+                &emsp;&emsp;<span class="pcl">public</span> <span class="typ">String</span> getName() {<br />
+                &emsp;&emsp;&emsp;<span class="pcl">return</span> name;<br />
+                &emsp;&emsp;}<br />
+            }</p>
+            <br />
+            <p><span class="pcl">public class</span> Main {<br />
+                &emsp;&emsp;<span class="pcl">public static void</span> main(<span class="typ">String</span>[] args) {<br />
+                &emsp;&emsp;&emsp;City city = <span class="kwd">new</span> City("New York");<br />
+                &emsp;&emsp;&emsp;Address address = <span class="kwd">new</span> Address(city);<br />
+                &emsp;&emsp;&emsp;Customer customer = <span class="kwd">new</span> Customer(address);<br />
+                <br />
+                &emsp;&emsp;&emsp;<span class="comment">// Untuk mengakses cityName (Customer->city->getName)</span><br />
+                &emsp;&emsp;&emsp;<span class="typ">String</span> cityName = customer.getAddress().getCity().getName(); <br />
+                &emsp;&emsp;&emsp;<span class="kwd">System</span>.out.println("City name: " + cityName);<br />
+                &emsp;&emsp;}<br />
+            }</p>
+        </div>        
+        <br/>
+        <p class="content">Code diatas, untuk mengakses latitude pada data seseorang, perlu mengakses beberapa class terlebih dahulu memperoleh data. (Person->Address->Location->Latitude)</p>
+        <br/><br/>
+        Setelah refactor:</p>
+        <div class="code-container">
+    <p><span class="pcl">public class</span> Customer {<br />
+        &emsp;&emsp;<span class="pcl">private</span> Address address;<br />
+        <br />
+        &emsp;&emsp;<span class="pcl">public</span> Customer(Address address) {<br />
+        &emsp;&emsp;&emsp;<span class="pcl">this.</span>address = address;<br />
+        &emsp;&emsp;}<br />
+        <br />
+        &emsp;&emsp;<span class="pcl">public</span> Address getAddress() {<br />
+        &emsp;&emsp;&emsp;<span class="pcl">return</span> address;<br />
+        &emsp;&emsp;}<br />
+        <br />
+        &emsp;&emsp;<span class="comment">// Method to get the city name directly from the customer</span><br />
+        &emsp;&emsp;<span class="pcl">public</span> <span class="typ">String</span> getCityName() {<br />
+        &emsp;&emsp;&emsp;<span class="pcl">return</span> address.getCityName();<br />
+        &emsp;&emsp;}<br />
+    }</p>
+    <br />
+    <p><span class="pcl">public class</span> Address {<br />
+        &emsp;&emsp;<span class="pcl">private</span> City city;<br />
+        <br />
+        &emsp;&emsp;<span class="pcl">public</span> Address(City city) {<br />
+        &emsp;&emsp;&emsp;<span class="pcl">this.</span>city = city;<br />
+        &emsp;&emsp;}<br />
+        <br />
+        &emsp;&emsp;<span class="pcl">public</span> City getCity() {<br />
+        &emsp;&emsp;&emsp;<span class="pcl">return</span> city;<br />
+        &emsp;&emsp;}<br />
+        <br />
+        &emsp;&emsp;<span class="comment">// Method to get the city name directly from the address</span><br />
+        &emsp;&emsp;<span class="pcl">public</span> <span class="typ">String</span> getCityName() {<br />
+        &emsp;&emsp;&emsp;<span class="pcl">return</span> city.getName();<br />
+        &emsp;&emsp;}<br />
+    }</p>
+    <br />
+    <p><span class="pcl">public class</span> Main {<br />
+        &emsp;&emsp;<span class="pcl">public static void</span> main(<span class="typ">String</span>[] args) {<br />
+        &emsp;&emsp;&emsp;City city = <span class="kwd">new</span> City("New York");<br />
+        &emsp;&emsp;&emsp;Address address = <span class="kwd">new</span> Address(city);<br />
+        &emsp;&emsp;&emsp;Customer customer = <span class="kwd">new</span> Customer(address);<br />
+        <br />
+        &emsp;&emsp;&emsp;<span class="comment">// Mengakses cityName dengan langsung dari class customer</span><br />
+        &emsp;&emsp;&emsp;<span class="typ">String</span> cityName = customer.getCityName();<br />
+        &emsp;&emsp;&emsp;<span class="kwd">System</span>.out.println("City name: " + cityName);<br />
+        &emsp;&emsp;}<br />
+    }</p>
+    </div>
+    <p class="content">
+        <span style="text-decoration: underline;">Solusi:</span> Melakukan hide delegate, move method, atau extract method untuk memindahkan code ke class awal.
+    </p>
+    </div>
+</body>
+
+</html>

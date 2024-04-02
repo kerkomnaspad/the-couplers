@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inappropriate Intimacy</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="body">
+    <div class="navbar">
+        <center>
+            Bad Code Smell : The Couplers
+        </center>
+    </div>
+    <div class="navbar-btndwn" onclick="toggleDropDown()">
+        <div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+        </div>
+
+    </div>
+    <div class="dropDownBar" id="dropDownBar">
+        <div class="dDB-container">
+            <button class="dDB-btn" onclick="toFenvy()">Feature Envy</button>
+            <button class="dDB-btn" onclick="toINA()">Inappropriate Intimacy</button>
+            <button class="dDB-btn" onclick="toMc()">Message Chain</button>
+            <button class="dDB-btn" onclick="toMdm()">Middle Man</button>
+            <button class="dDB-btn" onclick="toILC()">Incomplete Library Classes</button>
+        </div>
+    </div>
+    <div class="body-container">
+        <h1 class="title">Inappropriate Intimacy</h1>
+        
+        
+        <p class="content">
+            Code yang menggunakan <b>method atau field pada class lain.</b> Umumnya terlihat pada class yang sering <b>berhubungan dan bergantung</b>.
+        </p>
+        <br />
+        <center>
+            <img src="assets/inappropriate-intimacy-02.png" alt="image">
+        </center>
+        <p class="content">Contoh code:</p>
+        <div class="code-container">
+            <p><span class="pcl">public class</span> Person {<br />
+                &emsp;&emsp;<span class="pcl">private</span> <span class="typ">String</span> name;<br />
+                &emsp;&emsp;<span class="typ">private</span> Address address;</p>
+            <br />
+            <p>&emsp; <span class="pcl">public</span> Person(<span class="typ">String</span> name, Address address)
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">this.</span>name = name;
+                <br />
+                &emsp;&emsp;<span class="pcl">this.</span>address = address;
+                <br />
+                &emsp;
+                }
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">String</span> getName()
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">return</span> name;
+                <br />
+                &emsp;}
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">Address</span> getAddress()
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">return</span> address;
+                <br />
+                &emsp;}
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">String</span> getAddressCity()
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">return</span> address.getCity();
+                <br />
+                &emsp;}
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">void</span> setAddressCity(<span class="typ">String</span> city)
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;address.setCity(city);
+                <br />
+                &emsp;}
+            </p>
+            <br />
+            <p>}</p>
+            <br />
+            <p><span class="pcl">public class</span> Address {<br />
+                &emsp;<span class="pcl">private</span> <span class="typ">String</span> city;</p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> Address(<span class="typ">String</span> city) {<br />
+                &emsp;&emsp;<span class="pcl">this.</span>city = city;<br />
+                &emsp;}
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">String</span> getCity() {<br />
+                &emsp;&emsp;<span class="pcl">return</span> city;<br />
+                &emsp;}
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">void</span> setCity(<span class="typ">String</span> city) {<br />
+                &emsp;&emsp;<span class="pcl">this.</span>city = city;<br />
+                &emsp;}
+            </p>
+            <br />
+            <p>}</p>
+        </div>        
+        <br/>
+        <p class="content">Pada code diatas, class Person mengakses class Address dan juga dapat mengakses fieldnya, yang melanggar prinsip enkapsulasi<br/></p>
+        <br/><br/>
+        Setelah refactor:</p>
+        <div class="code-container">
+            <p><span class="pcl">public class</span> Person {<br />
+                &emsp;&emsp;<span class="pcl">private</span> <span class="typ">String</span> name;<br />
+                &emsp;&emsp;<span class="pcl">private</span> Address address;</p>
+            <br />
+            <p>&emsp; <span class="pcl">public</span> Person(<span class="typ">String</span> name, Address address)
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">this.</span>name = name;
+                <br />
+                &emsp;&emsp;<span class="pcl">this.</span>address = address;
+                <br />
+                &emsp;
+                }
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">String</span> getName()
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">return</span> name;
+                <br />
+                &emsp;}
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">Address</span> getAddress()
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">return</span> address;
+                <br />
+                &emsp;}
+            </p>
+            <br />
+            <p>}</p>
+            <br />
+            <p><span class="pcl">public class</span> Address {<br />
+                &emsp;<span class="pcl">private</span> <span class="typ">String</span> city;</p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> Address(<span class="typ">String</span> city) {<br />
+                &emsp;&emsp;<span class="pcl">this.</span>city = city;<br />
+                &emsp;}
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">String</span> getCity() {<br />
+                &emsp;&emsp;<span class="pcl">return</span> city;<br />
+                &emsp;}
+            </p>
+            <br />
+            <p>&emsp;<span class="pcl">public</span> <span class="typ">void</span> setCity(<span class="typ">String</span> city) {<br />
+                &emsp;&emsp;<span class="pcl">this.</span>city = city;<br />
+                &emsp;}
+            </p>
+            <br />
+            <p>}</p>
+        </div>
+        <p class="content">
+            <span style="text-decoration: underline;">Solusi:</span> Melakukan move method dan move field untuk memindahkan bagian dari suatu class ke class yang menggunakan method tersebut.
+        </p>      
+    </div>
+</body>
+
+</html>

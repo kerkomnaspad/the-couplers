@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Middle Man</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="body">
+    <div class="navbar">
+        <center>
+            Bad Code Smell : The Couplers
+        </center>
+    </div>
+    <div class="navbar-btndwn" onclick="toggleDropDown()">
+        <div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+        </div>
+
+    </div>
+    <div class="dropDownBar" id="dropDownBar">
+        <div class="dDB-container">
+            <button class="dDB-btn" onclick="toFenvy()">Feature Envy</button>
+            <button class="dDB-btn" onclick="toINA()">Inappropriate Intimacy</button>
+            <button class="dDB-btn" onclick="toMc()">Message Chain</button>
+            <button class="dDB-btn" onclick="toMdm()">Middle Man</button>
+            <button class="dDB-btn" onclick="toILC()">Incomplete Library Classes</button>
+        </div>
+    </div>
+    <div class="body-container">
+        <h1 class="title">Middle Man</h1>
+        
+        
+        <p class="content">
+            <b>Class</b> yang menjadi perantara dengan <b>class lain</b>, tanpa memberikan fungsionalitas.
+        </p>
+        <br />
+        <center>
+            <img src="assets/middle-man-01-3x.png" alt="image" style="max-width: 650px; max-height: 400px;">
+        </center>
+        <p class="content">Contoh code:</p>
+        <div class="code-container">
+            <p><span class="pcl">public class</span> Customer {<br />
+                &emsp;&emsp;<span class="pcl">private</span> CustomerService customerService;<br />
+                <br />
+                &emsp;&emsp;<span class="comment">// Constructor untuk membuat instance CustomerService</span><br />
+                &emsp;&emsp;<span class="pcl">public</span> Customer() {<br />
+                &emsp;&emsp;&emsp;<span class="pcl">this.</span>customerService = <span class="kwd">new</span> CustomerService();<br />
+                &emsp;&emsp;}<br />
+                <br />
+                &emsp;&emsp;<span class="comment">// Method untuk membuat customer baru</span><br />
+                &emsp;&emsp;<span class="pcl">public void</span> createCustomer(<span class="typ">String</span> name, <span class="typ">String</span> email) {<br />
+                &emsp;&emsp;&emsp;customerService.createCustomer(name, email);<br />
+                &emsp;&emsp;}<br />
+                <br />
+                &emsp;&emsp;<span class="comment">// Method untuk mengupdate informasi customer</span><br />
+                &emsp;&emsp;<span class="pcl">public void</span> updateCustomer(<span class="typ">String</span> name, <span class="typ">String</span> email) {<br />
+                &emsp;&emsp;&emsp;customerService.updateCustomer(name, email);<br />
+                &emsp;&emsp;}<br />
+                <br />
+                &emsp;&emsp;<span class="comment">// Method untuk menghapus customer</span><br />
+                &emsp;&emsp;<span class="pcl">public void</span> deleteCustomer(<span class="typ">String</span> name) {<br />
+                &emsp;&emsp;&emsp;customerService.deleteCustomer(name);<br />
+                &emsp;&emsp;}<br />
+            }</p>
+        </div>        
+        <br/>
+        <p class="content">Kode diatas adalah class Customer yang digunakan hanya mengakses class customerService.  Cara yang lebih baik adalah dengan mengakses customerService secara langsung tanpa melalui class Customer</p>
+        <br/><br/>
+        Setelah refactor:</p>
+        <div class="code-container">
+            <p><span class="comment">// Membuat instance CustomerService</span><br />
+            CustomerService customerService = <span class="kwd">new</span> CustomerService();<br />
+            <br />
+            <span class="comment">// Membuat pelanggan baru</span><br />
+            customerService.createCustomer("John Doe", "john@example.com");<br />
+            <br />
+            <span class="comment">// Memperbarui informasi pelanggan</span><br />
+            customerService.updateCustomer("John Doe", "john.doe@example.com");<br />
+            <br />
+            <span class="comment">// Menghapus pelanggan</span><br />
+            customerService.deleteCustomer("John Doe");</p>
+        </div>
+        <p class="content">
+            <span style="text-decoration: underline;">Solusi:</span> Mengakses class yang diperlukan secara langsung tanpa melalui class perantara.
+        </p>
+    </div>
+</body>
+
+</html>

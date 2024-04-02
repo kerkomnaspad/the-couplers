@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incomplete Library Class</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="body">
+    <div class="navbar">
+        <center>
+            Bad Code Smell : The Couplers
+        </center>
+    </div>
+    <div class="navbar-btndwn" onclick="toggleDropDown()">
+        <div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+        </div>
+
+    </div>
+    <div class="dropDownBar" id="dropDownBar">
+        <div class="dDB-container">
+            <button class="dDB-btn" onclick="toFenvy()">Feature Envy</button>
+            <button class="dDB-btn" onclick="toINA()">Inappropriate Intimacy</button>
+            <button class="dDB-btn" onclick="toMc()">Message Chain</button>
+            <button class="dDB-btn" onclick="toMdm()">Middle Man</button>
+            <button class="dDB-btn" onclick="toILC()">Incomplete Library Classes</button>
+        </div>
+    </div>
+    <div class="body-container">
+        <h1 class="title">
+            Incomplete Library Class
+            
+        </h1>
+        
+        
+        <p class="content">
+            Class yang memiliki <b>fungsionalitas</b>, tetapi <b>tidak di-implementasi dengan benar</b>.
+        </p>
+        <br />
+        <center>
+            <img src="assets/incomplete-library-class-02.png" alt="image">
+        </center>
+        <p class="content">Contoh code:</p>
+        <div class="code-container">
+            <p><span class="pcl">public class</span> PaymentProcessor {<br />
+                &emsp;&emsp;<span class="comment">// Metode untuk memproses transaksi kartu kredit</span><br />
+                &emsp;&emsp;<span class="pcl">public void</span> processCreditCardTransaction(<span class="typ">String</span> cardNumber, <span class="typ">double</span> amount) {<br />
+                &emsp;&emsp;&emsp;<span class="comment">// kode untuk memproses transaksi kartu kredit</span><br />
+                &emsp;&emsp;}<br />
+            }</p>
+        </div>
+        
+        <br/>
+        <p class="content">Sebagai program yang memproses transaksi, hanya memproses kartu kredit tidaklah cukup. Maka sebaiknya method ditambah.</p>
+        <br/><br/>
+        Setelah refactor:</p>
+        <div class="code-container">
+            <p><span class="pcl">public class</span> PaymentProcessor {<br />
+                &emsp;&emsp;<span class="comment">// Metode untuk memproses transaksi kartu kredit</span><br />
+                &emsp;&emsp;<span class="pcl">public void</span> processCreditCardTransaction(<span class="typ">String</span> cardNumber, <span class="typ">double</span> amount) {<br />
+                &emsp;&emsp;&emsp;<span class="comment">// kode untuk memproses transaksi kartu kredit</span><br />
+                &emsp;&emsp;}<br />
+                <br />
+                &emsp;&emsp;<span class="comment">// Metode untuk memproses transaksi melalui PayPal</span><br />
+                &emsp;&emsp;<span class="pcl">public void</span> processPayPalTransaction(<span class="typ">String</span> email, <span class="typ">double</span> amount) {<br />
+                &emsp;&emsp;&emsp;<span class="comment">// kode untuk memproses transaksi melalui PayPal</span><br />
+                &emsp;&emsp;}<br />
+                <br />
+                &emsp;&emsp;<span class="comment">// Metode untuk memproses transaksi cryptocurrency</span><br />
+                &emsp;&emsp;<span class="pcl">public void</span> processCryptoTransaction(<span class="typ">String</span> walletAddress, <span class="typ">double</span> amount) {<br />
+                &emsp;&emsp;&emsp;<span class="comment">// kode untuk memproses transaksi cryptocurrency</span><br />
+                &emsp;&emsp;}<br />
+            }</p>
+        </div>
+        <p class="content">
+            <span style="text-decoration: underline;">Solusi:</span> Menambahkan lebih banyak method yang dapat digunakan dalam transaksi.
+        </p>
+    </div>
+</body>
+
+</html>

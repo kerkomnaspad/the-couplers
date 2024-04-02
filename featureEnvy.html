@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Envy</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="body">
+    <div class="navbar">
+        <center>
+            Bad Code Smell : The Couplers
+        </center>
+    </div>
+    <div class="navbar-btndwn"  onclick="toggleDropDown()">
+        <div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+            <div class="borgar"></div>
+        </div>
+
+    </div>
+    <div class="dropDownBar" id="dropDownBar">
+        <div class="dDB-container">
+            <button class="dDB-btn" onclick=toFenvy()>Feature Envy</button>
+            <button class="dDB-btn" onclick="toINA()">Inappropriate Intimacy</button>
+            <button class="dDB-btn" onclick="toMc()">Message Chain</button>
+            <button class="dDB-btn" onclick="toMdm()">Middle Man</button>
+            <button class="dDB-btn" onclick="toILC()">Incomplete Library Classes</button>
+        </div>
+    </div>
+    <div class="body-container">
+        <h1 class="title">Feature Envy</h1>
+        
+        
+        <p class="content">Code smell dimana method pada suatu class sering mengakses data pada class lain <b>tanpa melakukan
+                pengolahan data</b>, biasanya terjadi setelah field dipindah ke class yang berbeda. Ini menandakan bahwa
+            method pada class ini sebaiknya dipindah ke class lain.</p>
+        <br />
+        <center>
+            <img src="assets/feature-envy-01.png">
+        </center>
+        <p class="content">Contoh code:</p>
+        <div class="code-container">
+            <p><span class="pcl">public class</span> Book {<br />
+                &emsp;&emsp;<span class="pcl">private</span> <span class="typ">String</span> title;<br />
+                &emsp;&emsp;<span class="pcl">private</span> <span class="typ">String</span> author;</p>
+            <br />
+            <p>&emsp; <span class="pcl">public</span> Book(<span class="typ">String</span> title, <span class="typ">String</span> author)
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">this.</span>title = title;
+                <br />
+                &emsp;&emsp;<span class="pcl">this.</span>author = author;
+                <br />
+                &emsp;
+                }
+            </p>
+
+            <br />
+            <p> <span class="comment">// Feature Envy: method ini lebih tertarik pada method class lain dibandingkan dengan method pada class sendiri.</span>
+                <br />
+                &emsp;<span class="pcl">public</span> <span class="typ">boolean</span> isAvailable(<span class="typ">Library</span> library)
+                <br />
+                &emsp;&emsp;{
+                <br />
+                &emsp;&emsp;&emsp;<span class="pcl">return</span> library.hasBook(this);
+                <br />
+                &emsp;&emsp;}
+                <br />
+                }
+            </p>
+
+            <br />
+            <p><span class="pcl">public class</span>  Library<br />
+                &emsp; {
+                <br />
+                &emsp;<span class="pcl">private</span> List&lt;<span class="typ">Book</span>&gt; books;
+            </p>
+
+            <p>
+                &emsp;<span class="pcl">public <span class="typ">boolean</span></span> hasBook(<span class="typ">Book</span> book) {
+                <br />
+                &emsp;
+                <span class="pcl">return</span> books.contains(book);
+                <br />
+                &emsp;}
+                <br />
+                }
+                <br />
+            </p>
+
+           
+        </div>
+        <br/>
+        <p class="content">Pada code diatas, method isAvailable sangat bergantung pada class lain dibandingkan class sendiri, yaitu library. Maka sebaiknya method dipindah ke class library
+        <br/><br/>
+        Setelah refactor:</p>
+        <div class="code-container">
+            <p><span class="pcl">public class</span> Book {<br />
+                &emsp;&emsp;<span class="pcl">private</span> <span class="typ">String</span> title;<br />
+                &emsp;&emsp;<span class="pcl">private</span> <span class="typ">String</span> author;</p>
+            <br />
+            <p>&emsp; <span class="pcl">public</span> Book(<span class="typ">String</span> title, <span class="typ">String</span> author)
+                <br />
+                &emsp;{
+                <br />
+                &emsp;&emsp;<span class="pcl">this.</span>title = title;
+                <br />
+                &emsp;&emsp;<span class="pcl">this.</span>author = author;
+                <br />
+                &emsp;
+                }
+            </p>
+
+            <br />
+            <p> <span class="comment">// method return title, tanpa mengecek class lain</span>
+                <br />
+                &emsp;<span class="pcl">public</span> <span class="typ">string</span> getTitle()
+                <br />
+                &emsp;&emsp;{
+                <br />
+                &emsp;&emsp;&emsp;<span class="pcl">return</span> title;
+                <br />
+                &emsp;&emsp;}
+                <br />
+                }
+            </p>
+
+            <br />
+            <p><span class="pcl">public class</span>  Library<br />
+                &emsp; {
+                <br />
+                &emsp;<span class="pcl">private</span> List&lt;<span class="typ">Book</span>&gt; books;
+            </p>
+
+            <p>
+                &emsp;<span class="pcl">public <span class="typ">boolean</span></span> isBookAvailable(<span class="typ">String</span> title) 
+                <br/>{
+                <br />
+                &emsp;
+                <span class="pcl">for</span> (<span class="typ">Book</span> book : books) {
+                <br/>
+                &emsp;&emsp;&emsp;&emsp;if (book.getTitle().equals(title)) 
+                <br/>&emsp;&emsp;&emsp;&emsp;{
+                    <br/> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<sp class="pcl">return</sp              rue;
+                <br />
+                &emsp;&emsp;&emsp;&emsp;}
+                <br/>
+                &emsp;&emsp;&emsp;<span class="pcl">return</span> false;
+                <br/>
+                
+                &emsp;}
+                <br />
+                }
+                <br />
+            </p>
+        </div>
+        <p class="content">
+            <span style="text-decoration: underline;">Solusi:</span> Method pada class tersebut lebih baik dipindah ke class lain.
+        </p>
+    </div>
+</body>
+
+</html>
